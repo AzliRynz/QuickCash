@@ -70,8 +70,4 @@ class QuickCashAPI {
     public function resetCash(Player $player): void {
         $this->setCash($player, 0);
     }
-
-    public function getPlugin(): void {
-        return $this->plugin;
-    }
 }
