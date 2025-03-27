@@ -23,8 +23,6 @@ class Main extends PluginBase{
             new RemoveCashCommand($this),
             new PayCommand($this)
         ]);
-
-        $this->getLogger()->info("QuickCash telah diaktifkan!");
     }
 
     public function getConfigValue(string $key, $default = null){
@@ -44,6 +42,6 @@ class Main extends PluginBase{
     }
 
     public function getAPI() : QuickCashAPI{
-        return new QuickCashAPI($this);
+        return new QuickCashAPI();
     }
 }
