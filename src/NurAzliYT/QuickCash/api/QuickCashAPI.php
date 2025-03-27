@@ -9,6 +9,8 @@ class QuickCashAPI {
 
     private const CASH_TAG = "quickcash_balance";
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
         $this->plugin = $plugin;
     }
@@ -21,7 +23,7 @@ class QuickCashAPI {
      */
     public function getCash(Player $player): int {
         // Check if the player has the cash attribute
-        $balance = $player->getAttributeMap()->getAttribute(self::CASH_TAG);
+        $balance = $player->getAttributeMap()->get(self::CASH_TAG);
         return $balance !== null ? (int) $balance->getValue() : 0;
     }
 
@@ -32,9 +34,9 @@ class QuickCashAPI {
      * @param int $amount
      */
     public function setCash(Player $player, int $amount): void {
-        $attribute = $player->getAttributeMap()->getAttribute(self::CASH_TAG);
+        $attribute = $player->getAttributeMap()->get(self::CASH_TAG);
         if ($attribute === null) {
-            $attribute = $player->getAttributeMap()->createAttribute(self::CASH_TAG, $amount);
+            $attribute = $player->getAttributeMap()->add(self::CASH_TAG, $amount);
         } else {
             $attribute->setValue($amount);
         }
