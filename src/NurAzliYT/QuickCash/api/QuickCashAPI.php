@@ -4,6 +4,8 @@ namespace NurAzliYT\QuickCash\api;
 
 use NurAzliYT\QuickCash\Main;
 use pocketmine\player\Player;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\IntTag;
 
 class QuickCashAPI {
 
@@ -22,9 +24,8 @@ class QuickCashAPI {
      * @return int
      */
     public function getCash(Player $player): int {
-        // Check if the player has the cash attribute
-        $balance = $player->getAttributeMap()->get(self::CASH_TAG);
-        return $balance !== null ? (int) $balance->getValue() : 0;
+        $nbt = $player->getPersistentData();
+        return $nbt->getInt(self::CASH_TAG, 0);
     }
 
     /**
@@ -34,12 +35,8 @@ class QuickCashAPI {
      * @param int $amount
      */
     public function setCash(Player $player, int $amount): void {
-        $attribute = $player->getAttributeMap()->get(self::CASH_TAG);
-        if ($attribute === null) {
-            $attribute = $player->getAttributeMap()->add(self::CASH_TAG, $amount);
-        } else {
-            $attribute->setValue($amount);
-        }
+        $nbt = $player->getPersistentData();
+        $nbt->setInt(self::CASH_TAG, $amount);
     }
 
     /**
@@ -49,8 +46,7 @@ class QuickCashAPI {
      * @param int $amount
      */
     public function addCash(Player $player, int $amount): void {
-        $currentBalance = $this->getCash($player);
-        $this->setCash($player, $currentBalance + $amount);
+        $this->setCash($player, $this->getCash($player) + $amount);
     }
 
     /**
@@ -60,8 +56,7 @@ class QuickCashAPI {
      * @param int $amount
      */
     public function removeCash(Player $player, int $amount): void {
-        $currentBalance = $this->getCash($player);
-        $this->setCash($player, max(0, $currentBalance - $amount));
+        $this->setCash($player, max(0, $this->getCash($player) - $amount));
     }
 
     /**
