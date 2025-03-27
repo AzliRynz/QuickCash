@@ -2,11 +2,16 @@
 
 namespace NurAzliYT\QuickCash\api;
 
+use NurAzliYT\QuickCash\Main;
 use pocketmine\player\Player;
 
 class QuickCashAPI {
 
     private const CASH_TAG = "quickcash_balance";
+
+    public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
+    }
 
     /**
      * Get the cash balance of a player.
@@ -64,5 +69,9 @@ class QuickCashAPI {
      */
     public function resetCash(Player $player): void {
         $this->setCash($player, 0);
+    }
+
+    public function getPlugin(): void {
+        return $this->plugin;
     }
 }
