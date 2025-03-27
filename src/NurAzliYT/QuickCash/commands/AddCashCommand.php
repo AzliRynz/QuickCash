@@ -17,7 +17,7 @@ class AddCashCommand extends Command implements PluginOwned {
     public function __construct(Main $plugin) {
         parent::__construct("addcash", "Add cash to a player's account", "/addcash <player> <amount>", []);
         $this->setPermission("quickcash.command.addcash");
-        $this->owningPlugin = $plugin;
+        $this->plugin = $plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -37,7 +37,7 @@ class AddCashCommand extends Command implements PluginOwned {
         }
 
         $amount = (int) $args[1];
-        $plugin = $this->owningPlugin;
+        $plugin = $this->plugin;
         $plugin->getAPI()->addCash($target, $amount);
         $sender->sendMessage("Added $amount " . $plugin->getCurrencyName() . " to {$target->getName()}'s account");
         return true;
