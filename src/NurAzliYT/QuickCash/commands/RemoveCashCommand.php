@@ -15,7 +15,7 @@ class RemoveCashCommand extends Command implements PluginOwned {
     public function __construct(Main $plugin) {
         parent::__construct("removecash", "Remove cash from a player's account", "/removecash <player> <amount>", []);
         $this->setPermission("quickcash.command.removecash");
-        $this->owningPlugin = $plugin;
+        $this->plugin = $plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -35,7 +35,7 @@ class RemoveCashCommand extends Command implements PluginOwned {
         }
 
         $amount = (int) $args[1];
-        $plugin = $this->owningPlugin;
+        $plugin = $this->plugin;
         $plugin->getAPI()->removeCash($target, $amount);
         $sender->sendMessage("Removed $amount " . $plugin->getCurrencyName() . " from {$target->getName()}'s account");
         return true;
