@@ -17,7 +17,7 @@ class PayCommand extends Command implements PluginOwned {
     public function __construct(Main $plugin) {
         parent::__construct("pay", "Pay another player a certain amount of cash", "/pay <player> <amount>", []);
         $this->setPermission("quickcash.command.pay");
-        $this->owningPlugin = $plugin;
+        $this->plugin = $plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -42,7 +42,7 @@ class PayCommand extends Command implements PluginOwned {
         }
 
         $amount = (int) $args[1];
-        $plugin = $this->owningPlugin;
+        $plugin = $this->plugin;
 
         if ($plugin->getAPI()->getCash($sender) < $amount) {
             $sender->sendMessage("You do not have enough " . $plugin->getCurrencyName() . " to complete this transaction.");
