@@ -17,7 +17,7 @@ class SeeCashCommand extends Command implements PluginOwned {
     public function __construct(Main $plugin) {
         parent::__construct("seecash", "See the amount of cash a player has", "/seecash [player]", []);
         $this->setPermission("quickcash.command.seecash");
-        $this->owningPlugin = $plugin;
+        $this->plugin = $plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -35,7 +35,7 @@ class SeeCashCommand extends Command implements PluginOwned {
             return false;
         }
 
-        $plugin = $this->owningPlugin;
+        $plugin = $this->plugin;
         $balance = $plugin->getAPI()->getCash($target);
         $sender->sendMessage("{$target->getName()} has $balance " . $plugin->getCurrencyName());
         return true;
