@@ -12,6 +12,8 @@ use NurAzliYT\QuickCash\Main;
 class RemoveCashCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
         parent::__construct("removecash", "Remove cash from a player's account", "/removecash <player> <amount>", []);
         $this->setPermission("quickcash.command.removecash");
