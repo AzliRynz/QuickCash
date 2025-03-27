@@ -2,18 +2,22 @@
 
 namespace NurAzliYT\QuickCash\api;
 
-use NurAzliYT\QuickCash\Main;
 use pocketmine\player\Player;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
+use pocketmine\plugin\Plugin;
 
 class QuickCashAPI {
 
     private const CASH_TAG = "quickcash_balance";
+    private Plugin $plugin;
 
-    private Main $plugin;
-
-    public function __construct(Main $plugin) {
+    /**
+     * QuickCashAPI constructor.
+     *
+     * @param Plugin $plugin
+     */
+    public function __construct(Plugin $plugin) {
         $this->plugin = $plugin;
     }
 
@@ -24,8 +28,8 @@ class QuickCashAPI {
      * @return int
      */
     public function getCash(Player $player): int {
-        $nbt = $player->getPersistentData();
-        return $nbt->getInt(self::CASH_TAG, 0);
+        $nbt = $player->getNamedTag();
+        return $nbt->getTag(self::CASH_TAG) instanceof IntTag ? $nbt->getInt(self::CASH_TAG) : 0;
     }
 
     /**
@@ -35,8 +39,9 @@ class QuickCashAPI {
      * @param int $amount
      */
     public function setCash(Player $player, int $amount): void {
-        $nbt = $player->getPersistentData();
+        $nbt = $player->getNamedTag();
         $nbt->setInt(self::CASH_TAG, $amount);
+        $player->setNamedTag($nbt);
     }
 
     /**
