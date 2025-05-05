@@ -3,11 +3,15 @@
 namespace NurAzliYT\QuickCash\api;
 
 use pocketmine\player\Player;
-use pocketmine\entity\utils\PropertyManager;
+use pocketmine\utils\Config;
 
 class QuickCashAPI {
-
     private const CASH_TAG = "quickcash_balance";
+    private Config $playerData;
+
+    public function __construct(string $dataFolder) {
+        $this->playerData = new Config($dataFolder . "player_cash.yml", Config::YAML);
+    }
 
     /**
      * Get the cash balance of a player.
@@ -16,8 +20,7 @@ class QuickCashAPI {
      * @return int
      */
     public function getCash(Player $player): int {
-        $propertyManager = $player->getPropertyManager();
-        return (int) $propertyManager->getInt(self::CASH_TAG, 0);
+        return (int) $this->playerData->get($player->getUniqueId()->toString(), 0);
     }
 
     /**
@@ -27,7 +30,8 @@ class QuickCashAPI {
      * @param int $amount
      */
     public function setCash(Player $player, int $amount): void {
-        $player->getPropertyManager()->setInt(self::CASH_TAG, $amount);
+        $this->playerData->set($player->getUniqueId()->toString(), $amount);
+        $this->playerData->save();
     }
 
     /**
