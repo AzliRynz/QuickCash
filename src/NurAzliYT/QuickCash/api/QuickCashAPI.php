@@ -6,7 +6,6 @@ use pocketmine\player\Player;
 use pocketmine\utils\Config;
 
 class QuickCashAPI {
-    private const CASH_TAG = "quickcash_balance";
     private Config $playerData;
 
     public function __construct(string $dataFolder) {
