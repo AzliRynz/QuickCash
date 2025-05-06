@@ -42,6 +42,6 @@ class Main extends PluginBase{
     }
 
     public function getAPI() : QuickCashAPI{
-        return new QuickCashAPI();
+        return new QuickCashAPI($this->getDataFolder());
     }
 }
